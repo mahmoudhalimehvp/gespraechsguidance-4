@@ -208,17 +208,9 @@ const guidanceData: GuidanceSection[] = [
   },
   {
     id: 'senior',
-    title: 'Bedarfsermittlung',
+    title: 'Vorwandbehandlung',
     icon: '👴',
     groups: [
-      {
-        title: 'Bedarfsermittlung',
-        items: [
-          'Wie sieht denn die Pflegesituation aktuell bei Ihnen aus?',
-          'Welcher Pflegegrad liegt aktuell vor und gab es zuletzt eine Veränderung?',
-          'Welche Sturzgefahren gibt es aktuell im Wohnbereich, die den Alltag erschweren?'
-        ]
-      },
       {
         title: 'Vorwandbehandlung',
         collapsible: true,
@@ -331,74 +323,8 @@ const guidanceData: GuidanceSection[] = [
             text: 'Wissen Sie bereits, dass Sie mit einem Rezept kostenlos ein Elektromobil erhalten?'
           }
         ]
-      },
-      {
-        title: 'Abschluss',
-        items: [
-          'Vielen Dank. Dann haben wir nun alle wichtigen Informationen zusammen, damit ich Ihnen die passenden Ansprechpartner an die Hand geben kann.'
-        ]
       }
     ]
-  }
-];
-
-/** Eintrag für Weiterleiten-Modal „Abschluss“ (Überschrift + Fließtext) */
-interface AbschlussWeiterleitenVariant {
-  heading: string;
-  body: string;
-}
-
-/**
- * Weiterleiten-Modal „Abschluss“: 9 Textvarianten (Demo: ein/mehrere Kapa, WL, Kombi, T&I).
- * 1 Nur ein Kapa · 2 Mehrere Kapa · 3 Nur ein WL · 4 Mehrere WL · 5 Kapa & WL ·
- * 6 Kapa & Tools · 7 Warteliste & Tools · 8 Alles mit T&I · 9 Nur T&I
- */
-const ABSCHLUSS_WEITERLEITEN_VARIANTS: readonly AbschlussWeiterleitenVariant[] = [
-  {
-    heading: 'Nur ein Kapa Produkt',
-    body: `Ich werde nun für Sie die aktuellen Verfügbarkeiten prüfen und Ihnen den Kontakt zu Sonilift GmbH, SANA Treppenlifte und Expertlift GmbH herstellen. Dafür reserviere ich für Sie jetzt die kostenfreien Erstgespräche. Die Anbieter werden sich nun in den nächsten Minuten, spätestens im Laufe des Tages bei Ihnen melden. Bleiben Sie deshalb bitte telefonisch erreichbar, um die nächsten Schritte abzusprechen.`
-  },
-  {
-    heading: 'Mehrere Kapa Produkte',
-    body: `Ich werde nun für Sie die aktuellen Verfügbarkeiten prüfen und Ihnen für Sitzlift den Kontakt zu Sonilift GmbH, SANA Treppenlifte und Expertlift GmbH und für Hausnotruf den Kontakt zu Deutsche Hausnotruf AG und Pflegemittelbox herstellen. Dafür reserviere ich für Sie jetzt die kostenfreien Erstgespräche. Die Anbieter werden sich nun in den nächsten Minuten, spätestens im Laufe des Tages bei Ihnen melden. Bleiben Sie deshalb bitte telefonisch erreichbar, um die nächsten Schritte abzusprechen.`
-  },
-  {
-    heading: 'Nur ein WL Produkt',
-    body: `Für Vollstationäre Pflege haben wir aktuell keine Verfügbarkeiten. Ich frage für Sie deshalb zusätzlich bei weiteren Dienstleistern an. Das sind Kasteler Krankenhaus-Verein, Seniorenzentrum Stockstadt und Pflegehilfe für Senioren. Diese melden sich telefonisch bei Ihnen, insofern sie aktuell freie Verfügbarkeiten haben.`
-  },
-  {
-    heading: 'Mehrere WL Produkte',
-    body: `Für Vollstationäre Pflege & Pflegedienst haben wir aktuell keine Verfügbarkeiten. Ich frage für Sie deshalb zusätzlich bei weiteren Dienstleistern an. Das sind für Vollstationäre Pflege Kasteler Krankenhaus-Verein, Seniorenzentrum Stockstadt und Pflegehilfe für Senioren und für Pflegedienst simCura Wiesbaden Ost, Antara Ambulanter Pflegedienst GmbH und Pflegedienst Gemeinsam GmbH. Diese melden sich telefonisch bei Ihnen, insofern sie aktuell freie Verfügbarkeiten haben.`
-  },
-  {
-    heading: 'Kombi Kapa & WL',
-    body: `Ich werde nun für Sie die aktuellen Verfügbarkeiten prüfen und Ihnen den Kontakt zu Sonilift GmbH, SANA Treppenlifte und Expertlift GmbH herstellen. Dafür reserviere ich für Sie jetzt die kostenfreien Erstgespräche. Die Anbieter werden sich nun in den nächsten Minuten, spätestens im Laufe des Tages bei Ihnen melden. Bleiben Sie deshalb bitte telefonisch erreichbar, um die nächsten Schritte abzusprechen.
-
-Für Vollstationäre Pflege haben wir aktuell keine Verfügbarkeiten. Ich frage für Sie deshalb zusätzlich bei weiteren Dienstleistern an. Das sind Kasteler Krankenhaus-Verein, Seniorenzentrum Stockstadt und Pflegehilfe für Senioren. Diese melden sich telefonisch bei Ihnen, insofern sie aktuell freie Verfügbarkeiten haben.`
-  },
-  {
-    heading: 'Kapa & Tools',
-    body: `Ich werde nun für Sie die aktuellen Verfügbarkeiten prüfen und Ihnen den Kontakt zu Sonilift GmbH, SANA Treppenlifte und Expertlift GmbH herstellen. Dafür reserviere ich für Sie jetzt die kostenfreien Erstgespräche. Die Anbieter werden sich nun in den nächsten Minuten, spätestens im Laufe des Tages bei Ihnen melden. Bleiben Sie deshalb bitte telefonisch erreichbar, um die nächsten Schritte abzusprechen.
-
-Zusätzlich sende ich Ihnen noch passende Infobroschüren zu. Dazu bleiben wir in Kontakt und schauen dann gemeinsam, wie sich Ihre Situation entwickelt und welche nächsten Schritte sinnvoll sind.`
-  },
-  {
-    heading: 'Warteliste & Tools',
-    body: `Für Vollstationäre Pflege haben wir aktuell keine Verfügbarkeiten. Ich frage für Sie deshalb zusätzlich bei weiteren Dienstleistern an. Das sind Kasteler Krankenhaus-Verein, Seniorenzentrum Stockstadt und Pflegehilfe für Senioren. Diese melden sich telefonisch bei Ihnen, insofern sie aktuell freie Verfügbarkeiten haben.
-
-Zusätzlich sende ich Ihnen noch passende Infobroschüren zu. Dazu bleiben wir in Kontakt und schauen dann gemeinsam, wie sich Ihre Situation entwickelt und welche nächsten Schritte sinnvoll sind.`
-  },
-  {
-    heading: 'Alles mit T&I',
-    body: `Ich werde nun für Sie die aktuellen Verfügbarkeiten prüfen und Ihnen den Kontakt zu Sonilift GmbH, SANA Treppenlifte und Expertlift GmbH herstellen. Dafür reserviere ich für Sie jetzt die kostenfreien Erstgespräche. Die Anbieter werden sich nun in den nächsten Minuten, spätestens im Laufe des Tages bei Ihnen melden. Bleiben Sie deshalb bitte telefonisch erreichbar, um die nächsten Schritte abzusprechen.
-
-Für Vollstationäre Pflege haben wir aktuell keine Verfügbarkeiten. Ich frage für Sie deshalb zusätzlich bei weiteren Dienstleistern an. Das sind Kasteler Krankenhaus-Verein, Seniorenzentrum Stockstadt und Pflegehilfe für Senioren. Diese melden sich telefonisch bei Ihnen, insofern sie aktuell freie Verfügbarkeiten haben.
-
-Zusätzlich sende ich Ihnen noch passende Infobroschüren zu. Dazu bleiben wir in Kontakt und schauen dann gemeinsam, wie sich Ihre Situation entwickelt und welche nächsten Schritte sinnvoll sind.`
-  },
-  {
-    heading: 'Nur T&I',
-    body: `Zusätzlich sende ich Ihnen noch passende Infobroschüren zu. Dazu bleiben wir in Kontakt und schauen dann gemeinsam, wie sich Ihre Situation entwickelt und welche nächsten Schritte sinnvoll sind.`
   }
 ];
 
@@ -418,22 +344,14 @@ const Gespraechsguidance: React.FC<{
 }) => {
   const groupOrder = [
     'Vorwandbehandlung',
-    'Bedarfsermittlung',
     'Einwandbehandlung',
-    'Cross-Selling',
-    'Abschluss'
+    'Cross-Selling'
   ];
   const allGroups = guidanceData.flatMap((section) => section.groups ?? []);
   const defaultVisibleGroups = groupOrder
     .map((title) => allGroups.find((group) => group.title === title))
     .filter((group): group is GuidanceGroup => Boolean(group));
   const weiterleitenModeGroups: GuidanceGroup[] = [
-    {
-      title: 'Abschluss',
-      items: [
-        `${ABSCHLUSS_WEITERLEITEN_VARIANTS[0].heading}\n\n${ABSCHLUSS_WEITERLEITEN_VARIANTS[0].body}`
-      ]
-    },
     {
       title: 'Verabschiedung',
       items: [
@@ -479,8 +397,6 @@ const Gespraechsguidance: React.FC<{
     vorwandbehandlungIndex >= 0 ? vorwandbehandlungIndex : null
   );
   const [openEntryKey, setOpenEntryKey] = useState<string | null>(null);
-  /** Weiterleiten-Modal: gewählte Abschluss-Demo-Variante (0–8 → Anzeige 1–9) */
-  const [abschlussVariantIndex, setAbschlussVariantIndex] = useState(0);
 
   const handleGroupSummaryClick = (index: number) => {
     setOpenGroupIndex((prev) => (prev === index ? null : index));
@@ -501,16 +417,44 @@ const Gespraechsguidance: React.FC<{
     );
   }
 
+  const klientInitial =
+    (klientNachname && klientNachname.trim().charAt(0).toUpperCase()) ||
+    klientDisplayName
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean)
+      .pop()
+      ?.charAt(0)
+      ?.toUpperCase() ||
+    '?';
+
   return (
     <div className="guidance-sidebar">
-      <div className="guidance-klient-line">
-        <span className="guidance-klient-label">Klient:</span>
-        <span className="guidance-klient-name">{klientDisplayName}</span>
-      </div>
-      <div className="guidance-header">
-        <span className="guidance-icon">💡</span>
-        <h3>Gesprächshilfen</h3>
-      </div>
+      <header
+        className="guidance-panel-head"
+        aria-label="Gesprächshilfen und Klient"
+      >
+        <div className="guidance-panel-head__row">
+          <div className="guidance-panel-head__icon-wrap" aria-hidden="true">
+            <span className="guidance-panel-head__icon">💡</span>
+          </div>
+          <div className="guidance-panel-head__intro">
+            <h3 className="guidance-panel-head__title">Gesprächshilfen</h3>
+          </div>
+        </div>
+        <div
+          className="guidance-klient-chip"
+          title={`Klient: ${klientDisplayName}`}
+        >
+          <span className="guidance-klient-chip__avatar" aria-hidden="true">
+            {klientInitial}
+          </span>
+          <div className="guidance-klient-chip__text">
+            <span className="guidance-klient-chip__label">Klient</span>
+            <span className="guidance-klient-chip__name">{klientDisplayName}</span>
+          </div>
+        </div>
+      </header>
       <div className="guidance-content">
         <div className="guidance-tips">
           {visibleGroups.map((group, groupIndex) => (
@@ -529,61 +473,13 @@ const Gespraechsguidance: React.FC<{
                   {group.title}
                 </summary>
                 {group.items && group.items.length > 0 && (
-                  isWeiterleitenMode && group.title === 'Abschluss' ? (
-                    <div className="guidance-collapsible-content">
-                      <div
-                        className="guidance-abschluss-demo guidance-abschluss-demo--minimal"
-                        role="group"
-                        aria-label="Abschluss: Demo-Variante"
-                      >
-                        <div
-                          className="guidance-abschluss-variant-strip"
-                          role="tablist"
-                          aria-label="Textvariante wählen"
-                        >
-                          {ABSCHLUSS_WEITERLEITEN_VARIANTS.map((v, i) => (
-                            <button
-                              key={i}
-                              type="button"
-                              role="tab"
-                              aria-selected={abschlussVariantIndex === i}
-                              className={
-                                abschlussVariantIndex === i ? 'is-active' : ''
-                              }
-                              onClick={() => setAbschlussVariantIndex(i)}
-                              title={`${v.heading} (Variante ${i + 1})`}
-                            >
-                              {i + 1}
-                            </button>
-                          ))}
-                        </div>
+                  <div className="guidance-group-items guidance-collapsible-content">
+                    {group.items.map((item, itemIndex) => (
+                      <div key={itemIndex} className="guidance-group-item">
+                        {item}
                       </div>
-                      <div className="guidance-group-items">
-                        <div className="guidance-abschluss-variant-block">
-                          <div className="guidance-abschluss-variant-heading">
-                            {
-                              ABSCHLUSS_WEITERLEITEN_VARIANTS[abschlussVariantIndex]
-                                .heading
-                            }
-                          </div>
-                          <div className="guidance-group-item guidance-group-item-preline guidance-abschluss-variant-body">
-                            {
-                              ABSCHLUSS_WEITERLEITEN_VARIANTS[abschlussVariantIndex]
-                                .body
-                            }
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="guidance-group-items guidance-collapsible-content">
-                      {group.items.map((item, itemIndex) => (
-                        <div key={itemIndex} className="guidance-group-item">
-                          {item}
-                        </div>
-                      ))}
-                    </div>
-                  )
+                    ))}
+                  </div>
                 )}
                 {group.entries && group.entries.length > 0 && (
                   <div className="guidance-group-entries guidance-collapsible-content">
@@ -1214,16 +1110,6 @@ const AnfrageSitzlift: React.FC = () => {
         ) : (
           <div className="crm-main crm-main--anfrage">
             <div className="main-content-wrapper">
-              <Gespraechsguidance
-                klientDisplayName={
-                  [formData.anrede, formData.vorname, formData.nachname].filter(Boolean).join(' ') || 'Unbekannt'
-                }
-                klientAnrede={formData.anrede}
-                klientNachname={formData.nachname}
-                isWeiterleitenMode={isWeiterleitenModalOpen}
-                obscured={guidanceSidebarObscured}
-              />
-
               {/* Anfrage weiterleiten / „Anfrage abschicken“ */}
               {isWeiterleitenModalOpen && (
                 <div
@@ -2399,17 +2285,25 @@ const AnfrageSitzlift: React.FC = () => {
               </div>
             </div>
           </div>
-
-        </div>
+              </div>
+              <Gespraechsguidance
+                klientDisplayName={
+                  [formData.anrede, formData.vorname, formData.nachname].filter(Boolean).join(' ') || 'Unbekannt'
+                }
+                klientAnrede={formData.anrede}
+                klientNachname={formData.nachname}
+                isWeiterleitenMode={isWeiterleitenModalOpen}
+                obscured={guidanceSidebarObscured}
+              />
+            </div>
+          </div>
+        )}
       </div>
-    </div>
-  )}
-</div>
 
       {crmMainView === 'anfrage' && (
         <div
           className="floating-save-box"
-          onMouseEnter={() => setFormData((prev) => ({ ...prev, activeGuidanceSection: 'abschluss' }))}
+          onMouseEnter={() => setFormData((prev) => ({ ...prev, activeGuidanceSection: 'weiterleitung' }))}
         >
           <button className="btn-grey">Speichern</button>
           <button
