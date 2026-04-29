@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useLayoutEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import './AnfrageSitzlift.css';
 import { isCrmAdminUser } from '../config/crmAdmin';
 import Dashboard from './Dashboard';
@@ -328,6 +329,151 @@ const guidanceData: GuidanceSection[] = [
   }
 ];
 
+const GUIDANCE_BUBBLE_HIDE_MS = 180;
+const BUBBLE_W = 456;
+
+/**
+ * Sprechblase per Portal neben dem auslösenden Feld; Pfeil und Karte bilden ein zusammenhängendes Stück, vertikal am Trigger zentriert.
+ */
+const GuidanceSideBubble: React.FC<{
+  text: string;
+  className?: string;
+  children: React.ReactNode;
+}> = ({ text, className, children }) => {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const hideRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [open, setOpen] = useState(false);
+  const [bubbleState, setBubbleState] = useState<{
+    top: number;
+    left: number;
+    maxHeight: number;
+    tailOnRight: boolean;
+  } | null>(null);
+
+  const clearHide = () => {
+    if (hideRef.current) {
+      clearTimeout(hideRef.current);
+      hideRef.current = null;
+    }
+  };
+
+  const recalc = useCallback(() => {
+    const el = wrapRef.current;
+    const t = text?.trim();
+    if (!el || !t) return;
+    const r = el.getBoundingClientRect();
+    const gap = 8;
+    const w = BUBBLE_W;
+    const maxH = Math.min(0.78 * window.innerHeight, window.innerHeight - 20);
+    const anchorY = r.top + r.height / 2;
+    let left: number;
+    let tailOnRight: boolean;
+    if (r.right + gap + w <= window.innerWidth - 6) {
+      left = r.right + gap;
+      tailOnRight = false;
+    } else {
+      left = r.left - gap - w;
+      if (left < 6) left = 6;
+      tailOnRight = true;
+    }
+    setBubbleState({
+      top: anchorY,
+      left,
+      maxHeight: maxH,
+      tailOnRight
+    });
+  }, [text]);
+
+  useLayoutEffect(() => {
+    if (open) recalc();
+  }, [open, recalc]);
+
+  useEffect(() => {
+    if (!open) return;
+    const onScroll = () => recalc();
+    const onResize = () => recalc();
+    window.addEventListener('scroll', onScroll, true);
+    window.addEventListener('resize', onResize);
+    return () => {
+      window.removeEventListener('scroll', onScroll, true);
+      window.removeEventListener('resize', onResize);
+    };
+  }, [open, recalc]);
+
+  useEffect(
+    () => () => {
+      if (hideRef.current) clearTimeout(hideRef.current);
+    },
+    []
+  );
+
+  const onEnterWrap = () => {
+    clearHide();
+    if (!text?.trim()) return;
+    setOpen(true);
+  };
+  const onLeaveWrap = () => {
+    hideRef.current = setTimeout(() => {
+      setOpen(false);
+      setBubbleState(null);
+    }, GUIDANCE_BUBBLE_HIDE_MS);
+  };
+  const onEnterBubble = () => clearHide();
+  const onLeaveBubble = () => {
+    hideRef.current = setTimeout(() => {
+      setOpen(false);
+      setBubbleState(null);
+    }, GUIDANCE_BUBBLE_HIDE_MS);
+  };
+
+  return (
+    <>
+      <div
+        ref={wrapRef}
+        className={className}
+        onMouseEnter={onEnterWrap}
+        onMouseLeave={onLeaveWrap}
+      >
+        {children}
+      </div>
+      {open &&
+        bubbleState &&
+        createPortal(
+          <div
+            className="guidance-speech-bubble-root"
+            style={
+              {
+                top: bubbleState.top,
+                left: bubbleState.left
+              } as React.CSSProperties
+            }
+            onMouseEnter={onEnterBubble}
+            onMouseLeave={onLeaveBubble}
+            role="tooltip"
+          >
+            {!bubbleState.tailOnRight && (
+              <div className="guidance-speech-bubble__sleeve" aria-hidden>
+                <div className="guidance-speech-bubble__point guidance-speech-bubble__point--to-left" />
+              </div>
+            )}
+            <div
+              className="guidance-speech-bubble__card"
+              style={{ maxHeight: bubbleState.maxHeight }}
+            >
+              <div className="guidance-speech-bubble__text">{text}</div>
+            </div>
+            {bubbleState.tailOnRight && (
+              <div className="guidance-speech-bubble__sleeve" aria-hidden>
+                <div className="guidance-speech-bubble__point guidance-speech-bubble__point--to-right" />
+              </div>
+            )}
+          </div>,
+          document.body
+        )}
+    </>
+  );
+};
+
 const Gespraechsguidance: React.FC<{
   klientDisplayName: string;
   klientAnrede: string;
@@ -391,6 +537,10 @@ const Gespraechsguidance: React.FC<{
       .replace('[Nachname]', klientNachname || '')
       .replace(/[ \t]+/g, ' ')
       .trim();
+
+  /** Volltext für Sprechblase, ohne **-Hervorhebungen, mit Klient-Platzhaltern */
+  const toPlainTooltip = (raw: string): string =>
+    replaceKlientPlaceholders(raw).replace(/\*\*(.+?)\*\*/g, '$1').trim();
 
   const vorwandbehandlungIndex = visibleGroups.findIndex((g) => g.title === 'Vorwandbehandlung');
   const [openGroupIndex, setOpenGroupIndex] = useState<number | null>(
@@ -475,9 +625,17 @@ const Gespraechsguidance: React.FC<{
                 {group.items && group.items.length > 0 && (
                   <div className="guidance-group-items guidance-collapsible-content">
                     {group.items.map((item, itemIndex) => (
-                      <div key={itemIndex} className="guidance-group-item">
-                        {item}
-                      </div>
+                      <GuidanceSideBubble
+                        key={itemIndex}
+                        className="guidance-bubble-anchor"
+                        text={toPlainTooltip(item)}
+                      >
+                        <div className="guidance-group-item guidance-group-item--tooltip-only">
+                          <span className="guidance-item-faux-label">
+                            Textvorschlag {itemIndex + 1}
+                          </span>
+                        </div>
+                      </GuidanceSideBubble>
                     ))}
                   </div>
                 )}
@@ -496,7 +654,14 @@ const Gespraechsguidance: React.FC<{
                             handleEntrySummaryClick(groupIndex, entryIndex);
                           }}
                         >
-                          {entry.title}
+                          <GuidanceSideBubble
+                            className="guidance-bubble-anchor"
+                            text={toPlainTooltip(entry.text)}
+                          >
+                            <span className="guidance-entry-row">
+                              {entry.title}
+                            </span>
+                          </GuidanceSideBubble>
                         </summary>
                         <div className="guidance-group-entry-text">
                           {replaceKlientPlaceholders(entry.text) || (

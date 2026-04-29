@@ -562,6 +562,135 @@
   border-radius: 4px;
 }
 
+.guidance-bubble-anchor {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Sprechblase: Portal, Pfeil + Karte vertikal am Trigger, eine Fläche */
+.guidance-speech-bubble-root {
+  position: fixed;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: max-content;
+  max-width: min(100vw, calc(100vw - 12px));
+  transform: translateY(-50%);
+  overflow: visible;
+  pointer-events: auto;
+  z-index: 10060;
+  animation: guidance-bubble-fade 0.12s ease-out;
+}
+
+.guidance-speech-bubble__sleeve {
+  position: relative;
+  flex: 0 0 0;
+  width: 0;
+  align-self: stretch;
+  min-height: 0;
+  overflow: visible;
+}
+
+@keyframes guidance-bubble-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.guidance-speech-bubble__point--to-left {
+  position: absolute;
+  z-index: 0;
+  left: 0;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border-top: 11px solid transparent;
+  border-bottom: 11px solid transparent;
+  border-right: 14px solid #e2e8f0;
+  filter: drop-shadow(-0.4px 0.4px 0.15px #475569);
+  transform: translateX(-100%) translateY(-50%);
+  margin-left: -0.4px;
+  pointer-events: none;
+}
+
+.guidance-speech-bubble__point--to-right {
+  position: absolute;
+  z-index: 0;
+  right: 0;
+  left: auto;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border-top: 11px solid transparent;
+  border-bottom: 11px solid transparent;
+  border-left: 14px solid #e2e8f0;
+  filter: drop-shadow(0.4px 0.4px 0.15px #475569);
+  transform: translateX(100%) translateY(-50%);
+  margin-right: -0.4px;
+  pointer-events: none;
+}
+
+.guidance-speech-bubble__card {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 456px;
+  width: 456px;
+  min-width: 0;
+  min-height: 0;
+  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 1px solid #64748b;
+  border-radius: 14px;
+  box-shadow: 0 10px 32px rgba(15, 23, 42, 0.16);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.guidance-speech-bubble__text {
+  position: relative;
+  z-index: 1;
+  padding: 14px 16px 16px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: 100%;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+  color: #0f172a;
+  font-weight: 500;
+  white-space: pre-wrap;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+.guidance-group-item--tooltip-only {
+  cursor: help;
+  color: #475569;
+  font-size: 12px;
+  line-height: 1.4;
+  padding: 2px 0;
+}
+
+.guidance-item-faux-label {
+  border-bottom: 1px dotted #94a3b8;
+}
+
+/* Einwand-Zeile: Fokus Sprechblase; Summary-Styles bleiben maßgebend */
+.guidance-entry-row {
+  display: block;
+  cursor: help;
+  border-bottom: 1px dotted #94a3b8;
+}
+
 .guidance-group-items {
   display: flex;
   flex-direction: column;
